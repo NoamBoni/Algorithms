@@ -1,3 +1,6 @@
+/**
+ * Ron Cohen - 208401349 Noam Boni - 315586131
+ */
 
 public class MySemaphore {
     private int tickets;
@@ -14,21 +17,17 @@ public class MySemaphore {
     }
 
     public synchronized void acquire(int index) {
-        while (tickets <= 0 || !(tickets > 0 && checkFair(index))) {
+        while (tickets <= 0 || !(tickets > 0 && checkFair(index))) {// only if there are tickets remaining and it's the
+                                                                    // car turn it'll get in
             try {
                 wait();
             } catch (Exception e) {
             }
         }
         tickets--;
-        // try {
-        //     Thread.sleep(1500);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
     }
 
-    public synchronized boolean checkFair(int index) {
+    public synchronized boolean checkFair(int index) {// checks if it's the car turn
         if (index == counter) {
             counter++;
             return true;

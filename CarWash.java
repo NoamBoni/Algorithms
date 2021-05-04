@@ -1,26 +1,21 @@
 // note that sometimes the output is not by order, that's because some cars got washed for less time than the others!
 
 /**
- * Ron Cohen - 208401349
- * Noam Boni - 315586131
+ * Ron Cohen - 208401349 Noam Boni - 315586131
  */
-
+ 
 public class CarWash {
-    private int K;
-    private int N;
-    private int M;
-    private int counterThirdStation = 0;
+    private int M;// car number
+    private int counterThirdStation = 0;// we're using this to release all the cars together from the last station
     private MySemaphore semN;
     private MySemaphore semK;
     private int counter = 0;
-    private Object lock1 = new Object();
+    private Object lock1 = new Object();// the locks are used to protect the critical sections at the stations
     private Object lock2 = new Object();
 
     public CarWash(int N, int K, int M) {
-        this.N = N;
-        this.K = K;
         this.M = M;
-        this.semN = new MySemaphore(N);
+        this.semN = new MySemaphore(N);// number of machines on every station
         this.semK = new MySemaphore(K);
     }
 
@@ -51,6 +46,7 @@ public class CarWash {
             try {
                 notifyAll();
             } catch (Exception e) {
+
             }
         while (counterThirdStation < M) {
             try {
@@ -61,7 +57,8 @@ public class CarWash {
         System.out.println("Car number " + c.getTurnNumber() + " left thr car wash :)");
     }
 
-    public void enterNewCar(Car c) {
+    public void enterNewCar(Car c) {// this is how we keep the order of the cars, only if the wash's counter is
+                                    // equal to the turn number of the car it will get in
         while (c.getTurnNumber() != counter) {
             try {
                 wait();
@@ -71,8 +68,7 @@ public class CarWash {
         counter++;
         try {
             notifyAll();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         firstStation(c);
     }
 
