@@ -1,3 +1,7 @@
+/**
+ * Ron Cohen - 208401349
+ * Noam Boni - 315586131
+ */
 public class Car extends Thread {
     private CarWash wash;
     private static int counter = 0;
@@ -11,7 +15,7 @@ public class Car extends Thread {
 
     public void run() {
         System.out.println("Car number " + turnNumber + " entered the wash");
-        wash.firstStation(this);
+        wash.enterNewCar(this);
     }
 
     public int getTurnNumber() {

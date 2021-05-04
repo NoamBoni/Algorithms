@@ -8,8 +8,7 @@
       "type": "java",
       "name": "Launch Current File",
       "request": "launch",
-      "mainClass": "${file}",
-      "console": "internalConsole"
+      "mainClass": "${file}"
     },
     {
       "type": "java",
