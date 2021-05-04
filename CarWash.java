@@ -7,7 +7,6 @@ public class CarWash {
     private int counterThirdStation = 0;
     private MySemaphore semN;
     private MySemaphore semK;
-    private ArrayList<Car> q;
 
     public CarWash(int N, int K, int M) {
         this.N = N;
@@ -17,15 +16,17 @@ public class CarWash {
         this.semK = new MySemaphore(K);
     }
 
-    public void init(Car c) {
+    // public void init(Car c) {
 
-    }
+    // }
 
-    public synchronized void firstStation(Car c) {
-        try {
-            semN.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void firstStation(Car c) {
+        synchronized(this){
+            try {
+                semN.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         float waitTime = carWait();
         System.out.println("Car number " + c.getTurnNumber() + " arrived to the first station, being washed for "
@@ -34,11 +35,13 @@ public class CarWash {
         secondStation(c);
     }
 
-    public synchronized void secondStation(Car c) {
-        try {
-            semK.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void secondStation(Car c) {
+        synchronized(this){
+            try {
+                semK.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         float waitTime = carWait();
         System.out.println("Car number " + c.getTurnNumber() + " arrived to the second station, being washed for "
@@ -59,7 +62,7 @@ public class CarWash {
         System.out.println("Car number " + c.getTurnNumber() + " left thr car wash :)");
     }
 
-    public float carWait() {
+    public synchronized float carWait() {
         float waitTime = (float) ((-1 * Math.log(Math.random()) / 1.5));
         try {
             Thread.sleep((int) waitTime * 1000);
