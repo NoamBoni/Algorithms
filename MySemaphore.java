@@ -15,7 +15,11 @@ public class MySemaphore extends Semaphore {
 
     public void queueSemaphore() throws InterruptedException {
         while (queue.indexOf(Thread.currentThread()) < permits + counter) 
-                wait();
+                try {
+                    wait();
+                } catch (Exception e) {
+                    //TODO: handle exception
+                }
     }
 
     @Override
